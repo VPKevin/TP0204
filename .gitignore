@@ -1,4 +1,4 @@
 /.idea
-/vendor
-/var/cache
 /node_modules
+/var/*
+/vendor
