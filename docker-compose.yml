@@ -29,6 +29,8 @@ services:
             ]
         volumes:
             - ./.docker/database/:/var/lib/mysql:rw
+        networks:
+            - backend
 ###< doctrine/doctrine-bundle ###
 
     phpmyadmin:
@@ -38,7 +40,7 @@ services:
             PMA_ARBITRARY: 1
             PMA_HOST: database
             PMA_USER: "${DB_USER:-symfony}"
-            PMA_PASSWORD: "${DB_PASSWORD:-ChangeMe}"
+            PMA_PASSWORD: "${DB_PASSWORD:-symfoPassword}"
         depends_on:
             - database
         networks:
@@ -58,6 +60,7 @@ services:
         networks:
             - backend
         ports:
+            - 80:80
             - 443:443
 
 networks:

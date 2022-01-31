@@ -18,14 +18,32 @@ Remplacer `[my-app-name]` avec le nom de dossier souhaité pour l'application.
 
 ### Installer le Docker
 
+Utiliser cette commande pour installer l'environnement docker et directement le démarrer  
 ```bash
-docker-compose build
+docker-compose up -d
 ```
 
 ### Installer le depandance Composer
 
-Executer la commande qui suit dans le dossier `src`
 ```bash
 composer install
 ```
 
+### Installer les modules Node
+
+Installer les modules
+```bash
+yarn install
+```
+
+Compiler les modules
+```bash
+yarn build
+```
+
+## Tester l'application
+
+### Acceder a la page d'acceuil du l'application
+
+Acceder a notre leboncoin du pauvre à l'adresse suivante
+http://localhost:5555
