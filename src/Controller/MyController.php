@@ -17,4 +17,12 @@ class MyController extends AbstractController
     {
         return $this->render('index.html.twig');
     }
+
+    /**
+     * @Route("/", name="test")
+     */
+    public function base(): Response
+    {
+        return $this->render('index.html.twig');
+    }
 }
