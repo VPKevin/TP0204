@@ -13,3 +13,11 @@ base:
 index:
     path: /index
     controller: App\Controller\MyController::index
+
+ads_back_index:
+    path: /ads
+    controller: App\Controller\AdsController::index
+
+ads_back_show:
+    path: /ads/show
+    controller: App\Controller\AdsController::show
