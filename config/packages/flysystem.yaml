@@ -1,0 +1,16 @@
+flysystem:
+  storages:
+    private.storage:
+      adapter: 'local'
+      options:
+        directory: '%kernel.project_dir%/var/uploads'
+
+    default.storage:
+      adapter: 'local'
+      options:
+        directory: '%kernel.project_dir%/public'
+
+    upload.storage:
+      adapter: 'local'
+      options:
+        directory: '%kernel.project_dir%/public/uploads'

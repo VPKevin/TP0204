@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ad index{% endblock %}
+
+{% block body %}
+    <h1>Ad index</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        <button class="btn">{{ button_label|default('Search') }}</button>
+    {{ form_start(form) }}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+        <div style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap;">
+            {% for ad in ads %}
+                <div style="display: flex; flex-direction: column; border: 1px solid grey; justify-content: center; align-content: center; width: 40%;">
+                    {{ ad.id }}
+                    {{ ad.title }}
+                    {{ ad.description }}
+                    {{ ad.price }}
+                    {% if ad.tag.label is defined %}
+                        {{ ad.tag.label }}
+                    {% else %}
+                        Pas de tag
+                    {% endif %}
+                    {% if ad.imageFileName is not null %}
+                        <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                    {% else %}
+                        Pas d'image
+                    {% endif %}
+                    {{ ad.createdAt ? ad.createdAt|date('d M Y') : '' }}
+                    <a href="{{ path('ad_show', {'id': ad.id}) }}">show</a>
+                    <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
+                </div>
+            {% else %}
+                    <td colspan="6">no records found</td>
+            {% endfor %}
+        </div>
+
+    <a href="{{ path('ad_new') }}">Create new</a>
+    <a href="{{ path('tag_index') }}">Page de tags</a>
+{% endblock %}
