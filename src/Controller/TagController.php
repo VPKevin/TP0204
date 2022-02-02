@@ -72,6 +72,9 @@ class TagController extends AbstractController
     public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
+            foreach($tag->getAds() as $ad) {
+                $tag->removeAd($ad);
+            }
             $entityManager->remove($tag);
             $entityManager->flush();
         }

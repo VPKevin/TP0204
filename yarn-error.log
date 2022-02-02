@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/node_modules/yarn/bin/yarn.js add symfony/form
+  /usr/bin/node /usr/share/node_modules/yarn/bin/yarn.js
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

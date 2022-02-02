@@ -34,7 +34,7 @@ class AdType extends AbstractType
             ])
             ->add('tag', EntityType::class, [
                 'class'         => Tag::class,
-                'choice_label'  => 'label'
+                'choice_label'  => 'label',
             ])
         ;
     }
