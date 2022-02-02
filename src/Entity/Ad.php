@@ -32,7 +32,7 @@ class Ad
     private ?Tag $tag;
 
     #[ORM\OneToMany(mappedBy: 'Ad', targetEntity: Picture::class)]
-    private ArrayCollection $pictures;
+    private Collection $pictures;
 
     #[Pure] public function __construct()
     {
@@ -92,6 +92,10 @@ class Ad
         return $this;
     }
 
+    /**
+     * @param Picture $picture
+     * @return $this
+     */
     public function addPicture(Picture $picture): Ad
     {
         if (!$this->pictures->contains($picture)) {
@@ -113,11 +117,18 @@ class Ad
         return $this;
     }
 
+    /**
+     * @return Tag|null
+     */
     public function getTag(): ?Tag
     {
         return $this->tag;
     }
 
+    /**
+     * @param Tag|null $tag
+     * @return $this
+     */
     public function setTag(?Tag $tag): self
     {
         $this->tag = $tag;
@@ -133,6 +144,10 @@ class Ad
         return $this->pictures;
     }
 
+    /**
+     * @param Picture $picture
+     * @return $this
+     */
     public function addPictures(Picture $picture): self
     {
         if (!$this->pictures->contains($picture)) {
@@ -143,6 +158,10 @@ class Ad
         return $this;
     }
 
+    /**
+     * @param Picture $picture
+     * @return $this
+     */
     public function removePictures(Picture $picture): self
     {
         if ($this->pictures->removeElement($picture)) {

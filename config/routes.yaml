@@ -15,9 +15,9 @@ index:
     controller: App\Controller\MyController::index
 
 ads_back_index:
-    path: /ads
-    controller: App\Controller\AdsController::index
+    path: /ad
+    controller: App\Controller\AdController::index
 
 ads_back_show:
-    path: /ads/show
-    controller: App\Controller\AdsController::show
+    path: /ad/show
+    controller: App\Controller\AdController::show
