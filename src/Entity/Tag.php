@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
@@ -17,10 +18,11 @@ class Tag
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[NotBlank(message: 'Le champ de doit pas être vide')]
     private ?string $label;
 
     #[ORM\OneToMany(mappedBy: 'tag', targetEntity: Ad::class)]
-    private ArrayCollection $ads;
+    private Collection $ads;
 
     #[Pure] public function __construct()
     {
@@ -65,7 +67,6 @@ class Tag
     public function removeAd(Ad $ad): self
     {
         if ($this->ads->removeElement($ad)) {
-            // set the owning side to null (unless already changed)
             if ($ad->getTag() === $this) {
                 $ad->setTag(null);
             }

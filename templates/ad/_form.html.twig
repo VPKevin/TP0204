@@ -1,7 +1,7 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+{{ form_start(form, {attr: {novalidate:"novalidate"}}) }}
     {{ form_row(form.title) }}
     {{ form_row(form.description) }}
     {{ form_row(form.price) }}
+    {{ form_row(form.tag) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

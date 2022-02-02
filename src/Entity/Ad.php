@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Service\UploadHelper;
 
 #[ORM\Entity(repositoryClass: AdRepository::class)]
 class Ad
@@ -17,12 +19,15 @@ class Ad
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[NotBlank(message: 'Le champ de doit pas être vide')]
     private ?string $title;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[NotBlank(message: 'Le champ de doit pas être vide')]
     private ?string $description;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[NotBlank(message: 'Le champ de doit pas être vide')]
     private ?float $price;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -33,6 +38,9 @@ class Ad
 
     #[ORM\OneToMany(mappedBy: 'Ad', targetEntity: Picture::class)]
     private Collection $pictures;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $imageFilename;
 
     #[Pure] public function __construct()
     {
@@ -172,5 +180,25 @@ class Ad
         }
 
         return $this;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    #[Pure] public function getImagePath(): string
+    {
+        return $this->getImageFilename() ===
+            '' ?
+            UploadHelper::DEFAULT_IMAGE :
+            UploadHelper::AD_IMAGE . '/' . $this->getImageFilename();
     }
 }

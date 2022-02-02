@@ -4,34 +4,60 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Form\AdType;
+use App\Form\SearchAdCommand;
+use App\Form\SearchAdType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Flysystem\FilesystemException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\UploadHelper;
 
 #[Route('/ad')]
 class AdController extends AbstractController
 {
-    #[Route('/', name: 'ad_index', methods: ['GET'])]
-    public function index(AdRepository $adRepository): Response
+    #[Route('/', name: 'ad_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, AdRepository $adRepository): Response
     {
+        $form = $this
+            ->createForm(SearchAdType::class, $searchAdCommand = new SearchAdCommand)
+            ->handleRequest($request);
+
+        $ads = $adRepository->search($searchAdCommand);
+
         return $this->render('ad/index.html.twig', [
-            'ads' => $adRepository->findAll(),
+            'ads'  => $ads,
+            'form' => $form->createView()
         ]);
     }
 
+    /**
+     * @throws FilesystemException
+     */
     #[Route('/new', name: 'ad_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadHelper $helper): Response
     {
         $ad = new Ad();
-        $form = $this->createForm(AdType::class, $ad)
+        $form = $this
+            ->createForm(AdType::class, $ad)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $newFile = $form['imageFile']->getData();
+
+            if($newFile) {
+                $fileName = $helper->uploadAdImage($newFile);
+                $ad->setImageFilename($fileName);
+            }
+
+            $ad->setCreatedAt(new \DateTime('now'));
             $entityManager->persist($ad);
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'annonce a bien été créée');
 
             return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -50,13 +76,23 @@ class AdController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws FilesystemException
+     */
     #[Route('/{id}/edit', name: 'ad_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Ad $ad, EntityManagerInterface $entityManager, UploadHelper $helper): Response
     {
         $form = $this->createForm(AdType::class, $ad);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newFile = $form['imageFile']->getData();
+
+            if($newFile) {
+                $fileName = $helper->uploadAdImage($newFile, $ad->getImageFilename());
+                $ad->setImageFilename($fileName);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);

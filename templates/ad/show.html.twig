@@ -8,6 +8,10 @@
     <table class="table">
         <tbody>
             <tr>
+                <th>Tag</th>
+                <td>{{ ad.tag.label }}</td>
+            </tr>
+            <tr>
                 <th>Id</th>
                 <td>{{ ad.id }}</td>
             </tr>
@@ -23,10 +27,16 @@
                 <th>Price</th>
                 <td>{{ ad.price }}</td>
             </tr>
-{#            <tr>#}
-{#                <th>Created_at</th>#}
-{#                <td>{{ ad.createdAt ? ad.createdAt|date('Y-m-d H:i:s') : '' }}</td>#}
-{#            </tr>#}
+            <tr>
+                <th>Created_at</th>
+                <td>{{ ad.createdAt ? ad.createdAt|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                </td>
+            </tr>
         </tbody>
     </table>
 

@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Label</th>
+                <th>Ads</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,10 @@
             <tr>
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.label }}</td>
+                {% for ad in tag.ads %}
+                    <td>{{ ad.title }}</td>
+                {% endfor %}
+
                 <td>
                     <a href="{{ path('tag_show', {'id': tag.id}) }}">show</a>
                     <a href="{{ path('tag_edit', {'id': tag.id}) }}">edit</a>
@@ -32,4 +37,5 @@
     </table>
 
     <a href="{{ path('tag_new') }}">Create new</a>
+    <a href="{{ path('ad_index') }}">Page d'ads'</a>
 {% endblock %}
