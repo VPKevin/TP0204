@@ -3,9 +3,12 @@
 {% block title %}Annonce - {{ ad.title }}{% endblock %}
 
 {% block body %}
-    <h1>Annonce :</h1>
+    <div class="">
+      <a href="{{ path('ad_index') }}">Retour </a>
 
-    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
+      <h1>Annonce :</h1>
+    </div>
+    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img" width="140" height="140">
 
     <td>{{ ad.title }}</td>
     <table class="table">
@@ -25,20 +28,14 @@
             <tr>
                 <th>Images</th>
                 <td>
-                    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img" width="140" height="140">
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('ad_index') }}">back to list</a>
-
     <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
 
+    <h1>Vos Questions :</h1>
 
-    <details open>
-      <summary>Want to ruin the surprise?</summary>
-      <br>
-      Well, you asked for it!
-    </details>
 {% endblock %}
