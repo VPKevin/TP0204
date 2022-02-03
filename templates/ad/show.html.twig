@@ -1,24 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ad{% endblock %}
+{% block title %}Annonce - {{ ad.title }}{% endblock %}
 
 {% block body %}
-    <h1>Ad</h1>
+    <h1>Annonce :</h1>
 
+    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
+
+    <td>{{ ad.title }}</td>
     <table class="table">
         <tbody>
-            <tr>
-                <th>Tag</th>
-                <td>{{ ad.tag.label }}</td>
-            </tr>
-            <tr>
-                <th>Id</th>
-                <td>{{ ad.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ ad.title }}</td>
-            </tr>
             <tr>
                 <th>Description</th>
                 <td>{{ ad.description }}</td>
@@ -32,7 +23,7 @@
                 <td>{{ ad.createdAt ? ad.createdAt|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Image</th>
+                <th>Images</th>
                 <td>
                     <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
                 </td>
@@ -43,4 +34,11 @@
     <a href="{{ path('ad_index') }}">back to list</a>
 
     <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
+
+
+    <details open>
+      <summary>Want to ruin the surprise?</summary>
+      <br>
+      Well, you asked for it!
+    </details>
 {% endblock %}

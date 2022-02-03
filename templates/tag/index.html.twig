@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tag index{% endblock %}
+{% block title %}Les catégories{% endblock %}
 
 {% block body %}
-    <h1>Tag index</h1>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-4 pb-2">
+      <h1>Catégorie :</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <i class="bi bi-plus-lg"></i>
+        <a class="btn btn-lg btn-secondary" href="{{ path('tag_new') }}">Nouvelle catégorie</a>
+      </div>
+    </div>
 
     <table class="table">
         <thead>
@@ -36,6 +42,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tag_new') }}">Create new</a>
-    <a href="{{ path('ad_index') }}">Page d'ads'</a>
 {% endblock %}

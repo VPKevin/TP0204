@@ -14,8 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\UploadHelper;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[Route('/ad')]
+#[Route('/')]
 class AdController extends AbstractController
 {
     #[Route('/', name: 'ad_index', methods: ['GET', 'POST'])]
@@ -36,7 +38,8 @@ class AdController extends AbstractController
     /**
      * @throws FilesystemException
      */
-    #[Route('/new', name: 'ad_new', methods: ['GET', 'POST'])]
+    #[Route('/annonces/ajouter', name: 'ad_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager, UploadHelper $helper): Response
     {
         $ad = new Ad();
@@ -68,7 +71,7 @@ class AdController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'ad_show', methods: ['GET'])]
+    #[Route('/annonces/{id}', name: 'ad_show', methods: ['GET'])]
     public function show(Ad $ad): Response
     {
         return $this->render('ad/show.html.twig', [
@@ -79,7 +82,8 @@ class AdController extends AbstractController
     /**
      * @throws FilesystemException
      */
-    #[Route('/{id}/edit', name: 'ad_edit', methods: ['GET', 'POST'])]
+    #[Route('/annonces/{id}/modifier', name: 'ad_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Ad $ad, EntityManagerInterface $entityManager, UploadHelper $helper): Response
     {
         $form = $this->createForm(AdType::class, $ad);
@@ -104,7 +108,8 @@ class AdController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'ad_delete', methods: ['POST'])]
+    #[Route('/annonces/{id}', name: 'ad_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
