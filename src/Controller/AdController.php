@@ -3,13 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\AdQuestion;
+use App\Entity\Answer;
+use App\Form\AdQuestionType;
 use App\Form\AdType;
+use App\Form\AnswerCollectionType;
+use App\Form\AnswerType;
 use App\Form\SearchAdCommand;
 use App\Form\SearchAdType;
+use App\Repository\AdQuestionRepository;
 use App\Repository\AdRepository;
+use App\Repository\AnswerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,6 +65,7 @@ class AdController extends AbstractController
             }
 
             $ad->setCreatedAt(new \DateTime('now'));
+
             $entityManager->persist($ad);
             $entityManager->flush();
 
@@ -67,16 +76,61 @@ class AdController extends AbstractController
 
         return $this->renderForm('ad/new.html.twig', [
             'ad' => $ad,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/annonces/{id}', name: 'ad_show', methods: ['GET'])]
-    public function show(Ad $ad): Response
+    #[Route('/annonces/{id}', name: 'ad_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, EntityManagerInterface $entityManager, Ad $ad): Response
     {
+        $adQuestion = new AdQuestion();
+        $adQuestionForm = $this
+            ->createForm(AdQuestionType::class, $adQuestion)
+            ->handleRequest($request);
+
+        if ($adQuestionForm->isSubmitted() && $adQuestionForm->isValid()) {
+
+            $adQuestion->setAd($ad);
+            $adQuestion->setUser($this->getUser());
+            $entityManager->persist($adQuestion);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La question a bien été créée');
+
+            return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('ad/show.html.twig', [
             'ad' => $ad,
+            'question_form' => $adQuestionForm->createView(),
         ]);
+    }
+
+    #[Route('/ad/{id}/answer', name: 'ads_back_answer', methods: ['GET', 'POST'])]
+    public function adAnswerPage(Request $request, EntityManagerInterface $entityManager, adQuestion $adQuestion): RedirectResponse|Response
+    {
+        $answer = new Answer();
+        $answerForm = $this
+            ->createForm(AnswerType::class, $answer)
+            ->handleRequest($request);
+
+        if ($answerForm->isSubmitted() && $answerForm->isValid()) {
+
+            $answer->setUser($this->getUser());
+            $answer->setAdQuestion($adQuestion);
+            $entityManager->persist($answer);
+            $entityManager->flush();
+
+            $this->addFlash('answer_success', 'La réponse a bien été créée');
+
+            return $this->redirectToRoute('ad_show', ['id' => $adQuestion->getAd()->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('ad/answer.html.twig', [
+            'adQuestion' => $adQuestion,
+            'answer_form' => $answerForm->createView()
+        ]);
+
     }
 
     /**
