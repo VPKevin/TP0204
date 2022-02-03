@@ -1,14 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ad index{% endblock %}
+{% block title %}Les annonces{% endblock %}
 
 {% block body %}
-    <h1>Ad index</h1>
+<div class="px-4">
 
-    {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        <button class="btn">{{ button_label|default('Search') }}</button>
-    {{ form_start(form) }}
+    <div class="rounded bg-light mt-3 mx-5 p-2">
+      {{ form_start(form) }}
+      {{ form_row(form.title) }}
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Rechercher') }}</button>
+      </div>
+      {{ form_start(form) }}
+    </div>
+    <h1>Annonces :</h1>
+
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">
@@ -16,32 +22,37 @@
         </div>
     {% endfor %}
 
-        <div style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap;">
-            {% for ad in ads %}
-                <div style="display: flex; flex-direction: column; border: 1px solid grey; justify-content: center; align-content: center; width: 40%;">
-                    {{ ad.id }}
-                    {{ ad.title }}
-                    {{ ad.description }}
-                    {{ ad.price }}
-                    {% if ad.tag.label is defined %}
-                        {{ ad.tag.label }}
-                    {% else %}
-                        Pas de tag
-                    {% endif %}
-                    {% if ad.imageFileName is not null %}
-                        <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img rounded-circle" width="140" height="140">
-                    {% else %}
-                        Pas d'image
-                    {% endif %}
-                    {{ ad.createdAt ? ad.createdAt|date('d M Y') : '' }}
-                    <a href="{{ path('ad_show', {'id': ad.id}) }}">show</a>
-                    <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
-                </div>
-            {% else %}
-                    <td colspan="6">no records found</td>
-            {% endfor %}
+    {% if ads %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for ad in ads %}
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="..." class="img-fluid rounded-start" alt="Pas d'image poto">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <a class="text-decoration-none text-dark stretched-link" href="{{ path('ad_show', {'id': ad.id}) }}">
+                  <h5 class="card-title">{{ ad.title }}</h5>
+                </a>
+                <p class="card-text">{{ ad.description }}</p>
+                <p class="card-text"><small class="text-muted">{{ ad.createdAt ? ad.createdAt|date('Y-m-d H:i:s') : '' }}</small></p>
+                <tr>
+                <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
+                </tr>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <tr>
+        <td colspan="6">no records found</td>
+    </tr>
+    {% endif %}
 
-    <a href="{{ path('ad_new') }}">Create new</a>
-    <a href="{{ path('tag_index') }}">Page de tags</a>
+</div>
 {% endblock %}
