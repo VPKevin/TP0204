@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Question de {{ adQuestion.user.pseudo }}
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p>
+                        {{ adQuestion.label }}
+                    </p>
+                    <hr/>
+                    {% if app.user != adQuestion.user and app.user == adQuestion.ad.user and adQuestion.answer is empty  %}
+                        {{ form_start(answer_form, {attr: {novalidate:"novalidate"}}) }}
+                        {{ form_row(answer_form.answer_label) }}
+                        <button class="btn">{{ button_label|default('Save') }}</button>
+                        {{ form_end(answer_form) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ path('ad_index') }}" style="color:#ff6e14">Leboncoin du pauvre</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <i class="bi bi-plus-square"></i>
+          <a class="nav-link" href="{{ is_granted('ROLE_USER') ? path('ad_new') : path('app_login') }}">Déposer une annonce</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav d-flex me-2">
+        {% if is_granted('ROLE_USER') %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ app.user.pseudo }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Mes Annonces</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li><a class="dropdown-item" href="{{ path('tag_index') }}">Administrer les tags</a></li>
+            {% endif %}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="btn btn-outline-success" href="{{ path('app_login') }}">Se connecter</a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>

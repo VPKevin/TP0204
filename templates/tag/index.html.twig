@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les catégories{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-4 pb-2">
+      <h1>Catégorie :</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <i class="bi bi-plus-lg"></i>
+        <a class="btn btn-lg btn-secondary" href="{{ path('tag_new') }}">Nouvelle catégorie</a>
+      </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Ads</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.id }}</td>
+                <td>{{ tag.label }}</td>
+                {% for ad in tag.ads %}
+                    <td>{{ ad.title }}</td>
+                {% endfor %}
+
+                <td>
+                    <a href="{{ path('tag_show', {'id': tag.id}) }}">show</a>
+                    <a href="{{ path('tag_edit', {'id': tag.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

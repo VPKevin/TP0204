@@ -1,0 +1,23 @@
+liip_imagine:
+  loaders:
+    my_flysystem_loader:
+      flysystem:
+        filesystem_service: default.storage
+  data_loader: my_flysystem_loader
+
+  resolvers:
+    my_flysystem_resolver:
+      flysystem:
+        filesystem_service: upload.storage
+        root_url: "/uploads"
+        cache_prefix: media/cache
+  cache: my_flysystem_resolver
+
+  driver: "gd"
+
+  filter_sets:
+    cache: ~
+    square_thumb:
+      quality: 50
+      filters:
+        thumbnail: { size: [ 200, 200 ], mode: outbound }

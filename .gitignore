@@ -1,4 +1,7 @@
 /.idea
+/migrations/*
 /node_modules
+/public/build
+/public/uploads/*
 /var/*
 /vendor

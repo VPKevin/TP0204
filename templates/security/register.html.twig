@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+
+    <div style="height:75vh">
+      <div class="align-items-center mt-5">
+        <div class="d-flex justify-content-center">
+          <div class="bg-light p-4 rounded" style="max-width:28em">
+
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.pseudo) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword) }}
+            {{ form_row(registrationForm.isAdmin) }}
+            <div class="vstack mx-auto mb-3">
+              <button class="btn btn-outline-primary" type="submit">
+                S'enregistrer
+              </button>
+            </div>
+            {{ form_end(registrationForm) }}
+
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
