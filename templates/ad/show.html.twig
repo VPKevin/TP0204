@@ -14,14 +14,31 @@
         <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img" width="140" height="140">
       </div>
 
+
+      {% set voter = 0 %}
+
+      {% for vote in ad.getVotes() %}
+        {% if vote.positive %}
+          {% set voter = voter + 1 %}
+        {% endif %}
+      {% endfor %}
+
       <div class="col">
+
         <div class="d-flex mb-3">
           <div id="voter" class="border border-dark rounded d-flex">
-            <a type="button" class="btn" href="#">-</a>
-            <p>0°</p>
-            <a type="button" class="btn" href="#">+</a>
+            <form class="" action="{{ path('ad_vote', {'id': ad.id}) }}" method="post">
+              <input type="hidden" name="positive" value="0">
+              <button type="submit" class="btn fw-bold text-success">-</button>
+            </form>
+            <p class="m-2">{{ voter - (ad.votes|length - voter)}}°</p>
+            <form class="" action="{{ path('ad_vote', {'id': ad.id}) }}" method="post">
+              <input type="hidden" name="positive" value="1">
+              <button type="submit" class="btn fw-bold text-danger">+</button>
+            </form>
           </div>
         </div>
+
         <h3>{{ ad.title }}</h3>
         <table class="table">
           <tbody>
@@ -44,8 +61,6 @@
 
 
     <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
-
-
 
 
     <h1 class="mt-3">Questions :</h1>
