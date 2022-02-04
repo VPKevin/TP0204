@@ -45,6 +45,10 @@ class Ad
     #[ORM\OneToMany(mappedBy: 'ad', targetEntity: AdQuestion::class)]
     private ?Collection $adQuestions;
 
+    #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Vote::class)]
+    private ?Collection $votes;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,4 +185,20 @@ class Ad
 
         return $this;
     }
+
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $adVote): self
+    {
+        // if (!$this->adQuestions->contains($adQuestion)) {
+        //     $this->adQuestions[] = $adQuestion;
+        //     $adQuestion->setAd($this);
+        // }
+
+        return $this;
+    }
+
 }

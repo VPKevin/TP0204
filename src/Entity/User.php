@@ -35,14 +35,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $pseudo;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ad::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AdQuestion::class)]
     private ?Collection $adQuestions;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ad::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Answer::class)]
     private ?Collection $answers;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ad::class)]
     private Collection $ads;
+
 
     #[Pure] public function __construct()
     {

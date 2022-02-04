@@ -46,4 +46,4 @@ yarn build
 ### Acceder a la page d'acceuil du l'application
 
 Acceder a notre leboncoin du pauvre à l'adresse suivante
-http://localhost:5555
+http://localhost

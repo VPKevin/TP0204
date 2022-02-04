@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Vote;
 use App\Entity\AdQuestion;
 use App\Entity\Answer;
 use App\Form\AdQuestionType;
@@ -84,6 +85,7 @@ class AdController extends AbstractController
     #[Route('/annonces/{id}', name: 'ad_show', methods: ['GET', 'POST'])]
     public function show(Request $request, EntityManagerInterface $entityManager, Ad $ad): Response
     {
+        // dd($ad);
         $adQuestion = new AdQuestion();
         $adQuestionForm = $this
             ->createForm(AdQuestionType::class, $adQuestion)
@@ -180,11 +182,14 @@ class AdController extends AbstractController
     public function vote(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
     {
 
-        if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($ad);
-            $entityManager->flush();
-        }
+        $vote = new Vote();
 
-        return $this->redirectToRoute('ad_show', ['id' => $adQuestion->getAd()->getId()], Response::HTTP_SEE_OTHER);
+        $vote->setUser($this->getUser());
+        $vote->setAd($ad);
+        $vote->setPositive($request->get('positive'));
+        $entityManager->persist($vote);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('ad_show', ['id' => $ad->getId()], Response::HTTP_SEE_OTHER);
     }
 }
