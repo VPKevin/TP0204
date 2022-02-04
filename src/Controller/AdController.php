@@ -107,7 +107,7 @@ class AdController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/answer', name: 'ads_back_answer', methods: ['GET', 'POST'])]
+    #[Route('/annonces/{id}/answer', name: 'ads_back_answer', methods: ['GET', 'POST'])]
     public function adAnswerPage(Request $request, EntityManagerInterface $entityManager, adQuestion $adQuestion): RedirectResponse|Response
     {
         $answer = new Answer();
@@ -173,5 +173,18 @@ class AdController extends AbstractController
         }
 
         return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/annonces/{id}/', name: 'ad_vote', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function vote(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
+    {
+
+        if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($ad);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('ad_show', ['id' => $adQuestion->getAd()->getId()], Response::HTTP_SEE_OTHER);
     }
 }
