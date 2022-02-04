@@ -40,10 +40,12 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            // ->add('isAdmin', CheckboxType::class, [
-            //     'label' => 'Voulez-vous être admin ?',
-            //     'mapped' => false,
-            // ])
+            ->add('isAdmin', CheckboxType::class, [
+                'label' => 'Voulez-vous être admin ?',
+                'mapped' => false,
+                'required' => false,
+                'help' => 'Permet le paramétrage des tags',
+            ])
         ;
     }
 
