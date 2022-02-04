@@ -14,7 +14,8 @@ class AdQuestionType extends AbstractType
     {
         $builder
             ->add('ad_question_label', TextType::class, [
-                'property_path' => 'label'
+                'property_path' => 'label',
+                'label' => 'Poser une question :'
             ])
         ;
     }

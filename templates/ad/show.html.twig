@@ -3,97 +3,104 @@
 {% block title %}Annonce - {{ ad.title }}{% endblock %}
 
 {% block body %}
-    <div class="">
-      <a href="{{ path('ad_index') }}">Retour </a>
 
-      <h1>Annonce :</h1>
+<div class="d-flex">
+  <a href="{{ path('ad_index') }}">Retour </a>
+  <h1>Annonce :</h1>
+</div>
+    <div class="row">
+
+      <div class="col">
+        <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img" width="140" height="140">
+      </div>
+
+      <div class="col">
+        <div class="d-flex mb-3">
+          <div id="voter" class="border border-dark rounded d-flex">
+            <a type="button" class="btn" href="#">-</a>
+            <p>0°</p>
+            <a type="button" class="btn" href="#">+</a>
+          </div>
+        </div>
+        <h3>{{ ad.title }}</h3>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Description</th>
+              <td>{{ ad.description }}</td>
+            </tr>
+            <tr>
+              <th>Prix</th>
+              <td>{{ ad.price }} $</td>
+            </tr>
+            <tr>
+              <th>Created_at</th>
+              <td>{{ ad.createdAt ? ad.createdAt|format_datetime('full', 'none', locale='en') : '' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img" width="140" height="140">
 
-    <td>{{ ad.title }}</td>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Description</th>
-                <td>{{ ad.description }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ ad.price }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ ad.createdAt ? ad.createdAt|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Images</th>
-                <td>
-                    <img src="{{ asset(ad.imagePath) }}" class="bd-placeholder-img" width="140" height="140">
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
     <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
 
-        <h1>Questions :</h1>
-        {% for message in app.flashes('answer_success') %}
-            <div class="alert alert-success" role="alert">
-                {{ message }}
+
+
+
+    <h1 class="mt-3">Questions :</h1>
+    {% for message in app.flashes('answer_success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user != ad.user %}
+    <div class="row justify-content-center">
+      <div class="bg-light my-3 p-4">
+        {{ form_start(question_form, {attr: {novalidate:"novalidate"}}) }}
+
+        {{ form_row(question_form.ad_question_label) }}
+        <button class="btn btn-outline-primary">{{ button_label|default('Envoyer') }}</button>
+        {{ form_end(question_form) }}
+      </div>
+    </div>
+    {% elseif app.user != ad.user %}
+    <p>
+      Pour poser une question
+      <a href="{{ path('app_login') }}">connectez-vous</a>
+    </p>
+    {% endif %}
+
+    {% if ad.adQuestions is not empty %}
+    <div class="accordion" id="accordionExample">
+        {% for question in ad.adQuestions %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ question.id }}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ question.id }}" aria-expanded="true" aria-controls="collapse{{ question.id }}">
+                        {{ question.label }}
+                        {{ question.answer ? '( Repondu )' : '(Pas de reponse)' }}
+                    </button>
+                </h2>
+                    <div id="collapse{{ question.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ question.id }}" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            {% if question.answer is not empty  %}
+                                <p>{{ question.answer.label }}</p>
+                            {% else %}
+                                <p>Aucune réponse pour l'instant.</p>
+                            {% endif %}
+                            {% if app.user == ad.user and question.user != app.user and question.answer is empty %}
+                                <a href="{{ path('ads_back_answer', {'id': question.id}) }}">Répondre à {{ question.user.pseudo }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
             </div>
         {% endfor %}
-
-
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        {% if app.user != ad.user %}
-            {{ form_start(question_form, {attr: {novalidate:"novalidate"}}) }}
-            {{ form_row(question_form.ad_question_label) }}
-            <button class="btn">{{ button_label|default('Save') }}</button>
-            {{ form_end(question_form) }}
-        {% endif %}
-
-        <div class="accordion" id="accordionExample">
-            {% if ad.adQuestions is not empty %}
-                {% for question in ad.adQuestions %}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Question de l'utilisateur {{ question.user.pseudo }}
-                            </button>
-                        </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <p>
-                                        {{ question.label }}
-                                    </p>
-                                    <hr/>
-
-                                    {% if question.answer is not empty  %}
-                                        <h3>Réponse de l'annonceur {{ question.answer.user.pseudo }}</h3>
-                                        <p>
-                                            {{ question.answer.label }}
-                                        </p>
-                                    {% else %}
-                                        <p>Aucune réponse pour l'instant.</p>
-                                    {% endif %}
-
-                                    {% if app.user == ad.user and question.user != app.user and question.answer is empty %}
-                                        <a href="{{ path('ads_back_answer', {'id': question.id}) }}">Répondre à la question</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Aucune question pour cette annonce.
-                        </button>
-                    </h2>
-                </div>
-            {% endif %}
-        </div>
+    </div>
+    {% else %}
+    Aucune question pour cette annonce.
     {% endif %}
 
     <br>

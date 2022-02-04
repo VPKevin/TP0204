@@ -62,6 +62,7 @@ class AdController extends AbstractController
             if($newFile) {
                 $fileName = $helper->uploadAdImage($newFile);
                 $ad->setImageFilename($fileName);
+                $ad->setUser($this->getUser());
             }
 
             $ad->setCreatedAt(new \DateTime('now'));
@@ -76,7 +77,7 @@ class AdController extends AbstractController
 
         return $this->renderForm('ad/new.html.twig', [
             'ad' => $ad,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -97,7 +98,7 @@ class AdController extends AbstractController
 
             $this->addFlash('success', 'La question a bien été créée');
 
-            return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('ad_show', ['id' => $adQuestion->getAd()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('ad/show.html.twig', [
@@ -106,7 +107,7 @@ class AdController extends AbstractController
         ]);
     }
 
-    #[Route('/ad/{id}/answer', name: 'ads_back_answer', methods: ['GET', 'POST'])]
+    #[Route('/annonces/{id}/answer', name: 'ads_back_answer', methods: ['GET', 'POST'])]
     public function adAnswerPage(Request $request, EntityManagerInterface $entityManager, adQuestion $adQuestion): RedirectResponse|Response
     {
         $answer = new Answer();
@@ -172,5 +173,18 @@ class AdController extends AbstractController
         }
 
         return $this->redirectToRoute('ad_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/annonces/{id}/', name: 'ad_vote', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function vote(Request $request, Ad $ad, EntityManagerInterface $entityManager): Response
+    {
+
+        if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($ad);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('ad_show', ['id' => $adQuestion->getAd()->getId()], Response::HTTP_SEE_OTHER);
     }
 }
