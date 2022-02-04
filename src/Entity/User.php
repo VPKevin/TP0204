@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -16,16 +19,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    private ?string $email;
 
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private $password;
+    private string $password;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $pseudo;
+    private ?string $pseudo;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ad::class)]
+    private ?Collection $adQuestions;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ad::class)]
+    private ?Collection $answers;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ad::class)]
+    private Collection $ads;
+
+    #[Pure] public function __construct()
+    {
+        $this->ads = new ArrayCollection();
+        $this->adQuestions = new ArrayCollection();
+        $this->answers = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -105,6 +125,89 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getAdQuestion(): ?Collection
+    {
+        return $this->adQuestions;
+    }
+
+    public function addAdQuestions(AdQuestion $adQuestion): self
+    {
+        if (!$this->adQuestions->contains($adQuestion)) {
+            $this->adQuestions[] = $adQuestion;
+            $adQuestion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdQuestions(AdQuestion $adQuestion): self
+    {
+        if ($this->adQuestions->removeElement($adQuestion)) {
+            if ($adQuestion->getUser() === $this) {
+                $adQuestion->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAds(): Collection
+    {
+        return $this->ads;
+    }
+
+    public function addAd(Ad $ad): self
+    {
+        if (!$this->ads->contains($ad)) {
+            $this->ads[] = $ad;
+            $ad->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAd(Ad $ad): self
+    {
+        if ($this->ads->removeElement($ad)) {
+            if ($ad->getUser() === $this) {
+                $ad->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAnswers(): ?Collection
+    {
+        return $this->answers;
+    }
+
+
+
+    public function addAnswers(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswers(Answer $answer): self
+    {
+        if ($this->answers->removeElement($answer)) {
+            if ($answer->getUser() === $this) {
+                $answer->setUser(null);
+            }
+        }
 
         return $this;
     }

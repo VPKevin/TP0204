@@ -36,6 +36,66 @@
 
     <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
 
-    <h1>Vos Questions :</h1>
+        <h1>Questions :</h1>
+        {% for message in app.flashes('answer_success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% if app.user != ad.user %}
+            {{ form_start(question_form, {attr: {novalidate:"novalidate"}}) }}
+            {{ form_row(question_form.ad_question_label) }}
+            <button class="btn">{{ button_label|default('Save') }}</button>
+            {{ form_end(question_form) }}
+        {% endif %}
+
+        <div class="accordion" id="accordionExample">
+            {% if ad.adQuestions is not empty %}
+                {% for question in ad.adQuestions %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Question de l'utilisateur {{ question.user.pseudo }}
+                            </button>
+                        </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <p>
+                                        {{ question.label }}
+                                    </p>
+                                    <hr/>
+
+                                    {% if question.answer is not empty  %}
+                                        <h3>Réponse de l'annonceur {{ question.answer.user.pseudo }}</h3>
+                                        <p>
+                                            {{ question.answer.label }}
+                                        </p>
+                                    {% else %}
+                                        <p>Aucune réponse pour l'instant.</p>
+                                    {% endif %}
+
+                                    {% if app.user == ad.user and question.user != app.user and question.answer is empty %}
+                                        <a href="{{ path('ads_back_answer', {'id': question.id}) }}">Répondre à la question</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Aucune question pour cette annonce.
+                        </button>
+                    </h2>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <br>
 
 {% endblock %}

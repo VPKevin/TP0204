@@ -36,16 +36,14 @@ class Ad
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'ads')]
     private ?Tag $tag;
 
-    #[ORM\OneToMany(mappedBy: 'Ad', targetEntity: Picture::class)]
-    private Collection $pictures;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ads')]
+    private ?User $user;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $imageFilename;
 
-    #[Pure] public function __construct()
-    {
-        $this->pictures = new ArrayCollection();
-    }
+    #[ORM\OneToMany(mappedBy: 'ad', targetEntity: AdQuestion::class)]
+    private ?Collection $adQuestions;
 
     public function getId(): ?int
     {
@@ -101,31 +99,6 @@ class Ad
     }
 
     /**
-     * @param Picture $picture
-     * @return $this
-     */
-    public function addPicture(Picture $picture): Ad
-    {
-        if (!$this->pictures->contains($picture)) {
-            $picture->setAd($this);
-            $this->pictures->add($picture);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Picture $picture
-     * @return Ad
-     */
-    public function removePicture(Picture $picture): Ad
-    {
-        $this->pictures->removeElement($picture);
-
-        return $this;
-    }
-
-    /**
      * @return Tag|null
      */
     public function getTag(): ?Tag
@@ -145,39 +118,20 @@ class Ad
     }
 
     /**
-     * @return Collection
+     * @return User|null
      */
-    public function getPictures(): Collection
+    public function getUser(): ?User
     {
-        return $this->pictures;
+        return $this->user;
     }
 
     /**
-     * @param Picture $picture
+     * @param User|null $user
      * @return $this
      */
-    public function addPictures(Picture $picture): self
+    public function setUser(?User $user): self
     {
-        if (!$this->pictures->contains($picture)) {
-            $this->pictures[] = $picture;
-            $picture->setAd($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Picture $picture
-     * @return $this
-     */
-    public function removePictures(Picture $picture): self
-    {
-        if ($this->pictures->removeElement($picture)) {
-            // set the owning side to null (unless already changed)
-            if ($picture->getAd() === $this) {
-                $picture->setAd(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }
@@ -200,5 +154,31 @@ class Ad
             '' ?
             UploadHelper::DEFAULT_IMAGE :
             UploadHelper::AD_IMAGE . '/' . $this->getImageFilename();
+    }
+
+    public function getAdQuestions(): Collection
+    {
+        return $this->adQuestions;
+    }
+
+    public function addAdQuestion(AdQuestion $adQuestion): self
+    {
+        if (!$this->adQuestions->contains($adQuestion)) {
+            $this->adQuestions[] = $adQuestion;
+            $adQuestion->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdQuestion(AdQuestion $adQuestion): self
+    {
+        if ($this->adQuestions->removeElement($adQuestion)) {
+            if ($adQuestion->getAd() === $this) {
+                $adQuestion->setAd(null);
+            }
+        }
+
+        return $this;
     }
 }
