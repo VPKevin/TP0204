@@ -18,11 +18,11 @@ class Vote
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $user_id;
+    private $user;
 
-    #[ORM\ManyToOne(targetEntity: Ad::class)]
+    #[ORM\ManyToOne(targetEntity: Ad::class, inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $ad_id;
+    private $ad;
 
     public function getId(): ?int
     {
@@ -41,38 +41,26 @@ class Vote
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getAnswerId(): ?Answer
+    public function getAd(): ?Ad
     {
-        return $this->answer_id;
+        return $this->ad;
     }
 
-    public function setAnswerId(?Answer $answer_id): self
+    public function setAd(?Ad $ad): self
     {
-        $this->answer_id = $answer_id;
-
-        return $this;
-    }
-
-    public function getAdId(): ?Ad
-    {
-        return $this->ad_id;
-    }
-
-    public function setAdId(?Ad $ad_id): self
-    {
-        $this->ad_id = $ad_id;
+        $this->ad = $ad;
 
         return $this;
     }
