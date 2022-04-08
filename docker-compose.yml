@@ -8,10 +8,8 @@ services:
         restart: always
         volumes:
             - .:/var/www/html
-        links:
-            - database
-        networks:
-            - backend
+        # links:
+        #     - database
 
 ###> doctrine/doctrine-bundle ###
     database:
@@ -29,8 +27,7 @@ services:
             ]
         volumes:
             - ./.docker/database/:/var/lib/mysql:rw
-        networks:
-            - backend
+
 ###< doctrine/doctrine-bundle ###
 
     phpmyadmin:
@@ -44,8 +41,6 @@ services:
             PMA_PASSWORD: "${DB_PASSWORD:-symfoPassword}"
         depends_on:
             - database
-        networks:
-            - backend
         ports:
             - 8080:80
 
@@ -57,11 +52,6 @@ services:
             - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - php
-            - database
-        networks:
-            - backend
+            # - database
         ports:
             - 80:80
-
-networks:
-    backend:

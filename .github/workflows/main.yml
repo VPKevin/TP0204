@@ -14,19 +14,31 @@ on:
 jobs:
   deploy:
     name: Deploy
+    environment: CI-CD-test
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      TARGET: "/home/root/www"
+      EXCLUDE: "/.gitignore, /README.md"
+
     runs-on: ubuntu-latest
     steps:
     - name: Choppe moi le code
       uses: actions/checkout@v1
 
-    - name: Déploie moi ça gros sagouin
+    - name: Deploie moi ça gros sagouin
       uses: easingthemes/ssh-deploy@main
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        TARGET: "/home/groupe9/www"
-        EXCLUDE: "/.gitignore, /README.md"
 
-    - name: Build the stack
-      run: docker-compose up -d
+    - name: Recree le docker stp
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd ${{ env.TARGET }}
+          docker-compose stop
+          docker-compose rm
+          docker-compose up -d
+          docker ps
