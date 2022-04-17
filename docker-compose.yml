@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile
         restart: always
         volumes:
-            - .:/var/www/html
+            - ${PATH_APP:.}:/var/www/html
         # links:
         #     - database
 
@@ -26,7 +26,7 @@ services:
               '--default-authentication-plugin=mysql_native_password'
             ]
         volumes:
-            - ./.docker/database/:/var/lib/mysql:rw
+            - ${PATH_DB:./.docker/database/}:/var/lib/mysql:rw
 
 ###< doctrine/doctrine-bundle ###
 
@@ -42,16 +42,16 @@ services:
         depends_on:
             - database
         ports:
-            - 8080:80
+            - ${PORT_PHPMYADMIN:8080}:80
 
     nginx:
         image: nginx:alpine
         restart: always
         volumes:
             - .:/var/www/html
-            - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ${PATH_DB:./.docker/nginx/default.conf}:/etc/nginx/conf.d/default.conf
         depends_on:
             - php
             # - database
         ports:
-            - 80:80
+            - ${PORT_APP:80}:80
