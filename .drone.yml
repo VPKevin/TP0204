@@ -1,0 +1,8 @@
+kind: pipeline
+name: cicd
+
+steps:
+  - name: test
+    image: docker/compose
+    commands:
+      - docker-compose up -d
