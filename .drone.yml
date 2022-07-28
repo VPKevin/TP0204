@@ -6,3 +6,8 @@ steps:
     image: docker/compose
     commands:
       - docker-compose up -d
+
+volumes:
+  - name: docker_socket
+    host:
+      path: /var/run/docker.sock
