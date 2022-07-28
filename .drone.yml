@@ -5,5 +5,5 @@ steps:
   - name: test
     image: docker/compose
     commands:
-	- pwd
-     # - docker-compose -f docker-compose.yml up -d
+	#- pwd
+      - docker-compose -f docker-compose.yml up -d
