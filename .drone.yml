@@ -4,8 +4,5 @@ name: cicd
 steps:
   - name: test
     image: docker/compose
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
     commands:
       - docker-compose up -d
