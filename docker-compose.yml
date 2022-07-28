@@ -3,11 +3,11 @@ version: '3.1'
 services:
     php:
         build:
-            context: ${PATH:-.}/.docker/php/
+            context: ./.docker/php/
             dockerfile: Dockerfile
         restart: always
         volumes:
-            - ${PATH:-.}:/var/www/html
+            - .:/var/www/html
         # links:
         #     - database
 
@@ -26,7 +26,7 @@ services:
               '--default-authentication-plugin=mysql_native_password'
             ]
         volumes:
-            - ${PATH:-.}/.docker/database/:/var/lib/mysql:rw
+            - ./.docker/database/:/var/lib/mysql:rw
 
 ###< doctrine/doctrine-bundle ###
 
@@ -49,7 +49,7 @@ services:
         restart: always
         volumes:
             - .:/var/www/html
-            - ${PATH:-.}/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - php
             # - database
