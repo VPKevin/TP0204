@@ -8,4 +8,6 @@ steps:
       - name: docker_sock
         path: /var/run/docker.sock
     commands:
-      - up -f /drone/src/docker-compose.yaml
+      - pwd
+      - ls -la
+      - docker-compose up -f /drone/src/docker-compose.yaml
