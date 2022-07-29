@@ -1,15 +1,16 @@
 kind: pipeline
-name: cicd
+type: docker
+name: default
 
 steps:
-  - name: test
+  - name: deploy
     image: docker/compose
     volumes:
       - name: docker_socket
-      - path: /var/run/docker.sock
+        path: /var/run/docker.sock
     commands:
       - docker-compose up -d
 
 volumes:
   - name: docker_socket
-  - path: /var/run/docker.sock
+    path: /var/run/docker.sock
