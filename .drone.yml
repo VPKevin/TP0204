@@ -8,7 +8,7 @@ steps:
     commands:
       - sh ./.drone/deploy.sh
     volumes:
-      - name: docker
+      - name: docker_socket
         path: /var/run/docker.sock
 
 volumes:
