@@ -5,11 +5,11 @@ name: default
 steps:
   - name: deploy
     image: docker/compose
-    volumes:
-      - name: docker_socket
-        path: /var/run/docker.sock
     commands:
-      - docker-compose up -d
+      - sh ./.drone/deploy.sh
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
 
 volumes:
   - name: docker_socket
