@@ -54,4 +54,4 @@ services:
             - php
             # - database
         ports:
-            - ${PORT_APP:-80}:80
+            - ${PORT_APP:-180}:80
