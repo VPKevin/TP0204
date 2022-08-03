@@ -14,8 +14,9 @@ oldImg=$(docker-compose --project-name tp0204 images -q)
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
 
-toDelImg=(`echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u `)
-echo ${toDelImg[@]}
+echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
+#toDelImg=(`echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u`)
+#echo $toDelImg[@]
 #for i in ${toDelImg} ; do
 #    docker rmi $i --no-prune
 #done
