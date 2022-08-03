@@ -17,7 +17,7 @@ for i in $lastImg ; do
     printf $i
     printf "testyx ${i} \n"
 done
-echo "\${lastImg[*]}"
+echo "${lastImg[*]}"
 echo [[ "${lastImg[*]}" ]]
 #for i in $oldImg ; do
 #    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
