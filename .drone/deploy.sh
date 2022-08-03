@@ -18,7 +18,7 @@ for i in $lastImg ; do
     printf "testyx ${i} \n"
 done
 for i in $oldImg ; do
-  printf "${lastImg[*]}"
+  echo "${lastImg[*]}"
 #    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
 #        printf $i
 ##        docker rmi $i --no-prune
