@@ -15,7 +15,7 @@ printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
 for o in $oldImg ; do
   for l in $lastImg ; do
-    [[ ! " $l " == " $o " ]] && cd docker rmi $o --no-prune
+    [[ ! " $l " == " $o " ]] && docker rmi $o --no-prune
   done
 #    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
 #        printf $i
