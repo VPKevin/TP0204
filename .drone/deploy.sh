@@ -13,12 +13,9 @@ oldImg=$(docker-compose --project-name tp0204 images -q)
 #docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
-for i in $lastImg ; do
-    printf $i
-    printf "testyx ${i} \n"
-done
-echo "${lastImg[*]}"
-echo [[ "${lastImg[*]}" ]]
+[[ " ${lastImg[*]} " =~ " fby4yk4364d4egr4cdt " ]] && echo "true" || echo "false"
+echo "${lastImg[]}"
+#echo [[ "${lastImg[*]}" ]]
 #for i in $oldImg ; do
 #    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
 #        printf $i
