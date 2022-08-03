@@ -13,8 +13,9 @@ oldImg=$(docker-compose --project-name tp0204 images -q)
 #docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
+# shellcheck disable=SC2034
 for i in $oldImg ; do
-  printf ${lastImg[*]}
+  printf "${lastImg[*]}"
 #    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
 #        printf $i
 ##        docker rmi $i --no-prune
