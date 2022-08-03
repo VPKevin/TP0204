@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+GREEN='1;32'
+NC='\033[0m' # No Color
 
 printf "${GREEN}Step 1 :${NC} Recuperation des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name tp0204 images -q)
@@ -12,7 +14,7 @@ docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
 for i in $oldImg ; do
-    if [[ ! " ${array[*]} " =~ " ${i} " ]]; then
+    if [[ ! " ${lastImg[*]} " =~ " ${i} " ]]; then
         docker rmi $i --no-prune
     fi
 done
