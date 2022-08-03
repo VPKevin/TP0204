@@ -3,7 +3,6 @@ set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
 
-# shellcheck disable=SC2059
 printf "${GREEN}Step 1 :${NC} Recuperation des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name tp0204 images -q)
 for i in $oldImg ; do
@@ -19,11 +18,10 @@ printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
 for i in $oldImg ; do
     printf $i
-    # shellcheck disable=SC2076
-    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
-        printf $i
-#        docker rmi $i --no-prune
-    fi
+#    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
+#        printf $i
+##        docker rmi $i --no-prune
+#    fi
 done
 
 #docker-compose --project-name tp0204 down --rmi all
