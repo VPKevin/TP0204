@@ -17,13 +17,13 @@ for i in $lastImg ; do
     printf $i
     printf "testyx ${i} \n"
 done
-for i in $oldImg ; do
-  echo "\${lastImg[*]}"
-  echo [[ ${lastImg[*]} ]]
+echo "\${lastImg[*]}"
+echo [[ "${lastImg[*]}" ]]
+#for i in $oldImg ; do
 #    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
 #        printf $i
 ##        docker rmi $i --no-prune
 #    fi
-done
+#done
 
 #docker-compose --project-name tp0204 down --rmi all
