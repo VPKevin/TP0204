@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
