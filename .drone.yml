@@ -4,7 +4,7 @@ name: default
 
 steps:
   - name: deploy
-    image: docker/compose
+    image: docker
     commands:
 #      - /bin/bash ./.drone/deploy.sh
       - sh ./.drone/deploy.sh
