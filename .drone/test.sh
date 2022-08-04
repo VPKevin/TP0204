@@ -30,12 +30,12 @@ echo "$Array1"
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u
 echo ' blax '
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d
+#echo ' blax '
+#echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u | uniq
+#echo ' blax '
+#echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq
 echo ' blax '
-echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u | uniq
-echo ' blax '
-echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq
-echo ' blax '
-echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u "$Array1" | uniq
+echo `echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u` "$Array1" | uniq
 
 #ArrayEnd=`echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq`
 #echo $ArrayEnd
