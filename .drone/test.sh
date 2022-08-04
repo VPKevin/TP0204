@@ -22,6 +22,6 @@ for i in $Array1; do
     for j in "${Array2[@]}"; do
         [[ $i == $j ]] && { skip=1; break; }
     done
-    [[ -n $skip ]] || Array3+=("$i")
+    [[ -n $skip ]] || echo $i
 done
 declare -p Array3
