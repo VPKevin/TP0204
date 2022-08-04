@@ -14,21 +14,14 @@ docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
 
-#echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
-toDelImg=(`echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u`)
-echo $toDelImg[@]
-for i in ${toDelImg} ; do
-    docker rmi $i --no-prune
+for i in $oldImg; do
+    skip=0
+    for j in $lastImg; do
+        [ "$i" = "$j" ] && { skip=1; break; }
+    done
+    [ $skip = 1 ] || docker rmi "$i" --no-prune
 done
 
-#for o in $oldImg ; do
-#  for l in $lastImg ; do
-#    [[ " $l " == " $o " ]] && docker rmi $o --no-prune
-#  done
-##    if [[ ! " ${lastImg[*]} " =~ " $i " ]]; then
-##        printf $i
-###        docker rmi $i --no-prune
-##    fi
-#done
-
 #docker-compose --project-name tp0204 down --rmi all
+
+#echo `echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u` "$Array1" | tr ' ' '\n' | sort | uniq -d
