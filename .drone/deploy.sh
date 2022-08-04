@@ -12,7 +12,7 @@ oldImg=$(docker-compose --project-name tp0204 images -q)
 #printf "${GREEN}Step 4 :${NC} Démarrage des conteneurs\n"
 #docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
-lastImg=$(docker-compose --project-name tp0204 images -q)
+#lastImg=$(docker-compose --project-name tp0204 images -q)
 oldImg=(TEST TY KA PI TU)
 lastImg=(TY KARHG PFI TEST)
 echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
