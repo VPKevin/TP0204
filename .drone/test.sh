@@ -13,8 +13,8 @@ echo "$BASH_VERSION"
 echo $BASH_VERSION
 echo ${GREEN}"testyx"
 
-Array1='key1 key2 key4 key6 key7 key8 key9 key10'
-Array2='key1 key3 key4 key5 key6'
+Array1='key1 key2 key4 key6 key7 key8 key9 key10' # 2 7 8 9 10
+Array2='key1 key3 key4 key5 key6' # 3 5
 echo $Array1
 echo "$Array1"
 Array3=
@@ -28,11 +28,11 @@ done
 #ArrayEnd={ echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u };
 #echo $ArrayEnd
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u
-echo' \n'
+echo '\n'
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d
-echo' \n'
+echo '\n'
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u | uniq
-echo' \n'
+echo '\n'
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq
 
 #ArrayEnd=`echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq`
