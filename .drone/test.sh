@@ -22,5 +22,5 @@ for i in $Array1; do
     for j in $Array2; do
         [ $i == $j ] && { skip=1; break; }
     done
-    [ $skip != 1 ] || echo $i
+    [ ! $skip = 1 ] || echo $i
 done
