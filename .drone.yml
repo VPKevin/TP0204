@@ -6,7 +6,8 @@ steps:
   - name: deploy
     image: docker/compose
     commands:
-      - ./.drone/deploy.sh
+      - bash ./.drone/deploy.sh
+      - sh ./.drone/deploy.sh
     volumes:
       - name: docker_socket
         path: /var/run/docker.sock

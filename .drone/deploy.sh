@@ -12,6 +12,8 @@ NC='\033[0m' # No Color
 #printf "${GREEN}Step 4 :${NC} Démarrage des conteneurs\n"
 #docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
+echo "$ BASH_VERSION"
+
 #lastImg=$(docker-compose --project-name tp0204 images -q)
 
 #echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
