@@ -13,9 +13,8 @@ NC='\033[0m' # No Color
 #docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 #lastImg=$(docker-compose --project-name tp0204 images -q)
-oldImg=( "TEST" "TY" "KA" "PI" "TU" )
-lastImg=( "TY" "KARHG" "PFI" "TEST" )
-echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
+
+#echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
 #toDelImg=(`echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u`)
 #echo $toDelImg[@]
 #for i in ${toDelImg} ; do
@@ -33,3 +32,16 @@ echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
 #done
 
 #docker-compose --project-name tp0204 down --rmi all
+
+Array1=( "key1" "key2" "key3" "key4" "key5" "key6" "key7" "key8" "key9" "key10" )
+Array2=( "key1" "key2" "key3" "key4" "key5" "key6" )
+
+Array3=()
+for i in "${Array1[@]}"; do
+    skip=
+    for j in "${Array2[@]}"; do
+        [[ $i == $j ]] && { skip=1; break; }
+    done
+    [[ -n $skip ]] || Array3+=("$i")
+done
+declare -p Array3
