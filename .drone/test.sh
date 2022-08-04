@@ -15,7 +15,8 @@ echo ${GREEN}"testyx"
 
 Array1='key1 key2 key4 key6 key7 key8 key9 key10'
 Array2='key1 key3 key4 key5 key6'
-
+echo $Array1
+echo "$Array1"
 Array3=
 for i in $Array1; do
     skip=0
