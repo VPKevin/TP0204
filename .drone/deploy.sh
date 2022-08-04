@@ -4,7 +4,7 @@ GREEN='1;32'
 NC='\033[0m' # No Color
 
 printf "${GREEN}Step 1 :${NC} Recuperation des anciennes images utilisées\n"
-oldImg=$(docker-compose --project-name tp0204 images -q)
+#oldImg=$(docker-compose --project-name tp0204 images -q)
 #printf "${GREEN}Step 2 :${NC} Mise à jour des images\n"
 #docker-compose --project-name tp0204 pull
 #printf "${GREEN}Step 3 :${NC} Téléchargement des mises à jour des images\n"
