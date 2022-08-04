@@ -28,8 +28,11 @@ done
 #ArrayEnd={ echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u };
 #echo $ArrayEnd
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u
+echo' \n'
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d
+echo' \n'
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u | uniq
+echo' \n'
 echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq
 
 #ArrayEnd=`echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq`
