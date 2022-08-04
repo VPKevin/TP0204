@@ -22,6 +22,5 @@ for i in $Array1; do
     for j in $Array2; do
         [ $i == $j ] && { skip=1; break; }
     done
-    # shellcheck disable=SC2070
-    [ -n $skip ] || echo $i
+    [ $skip == "" ] || echo $i
 done
