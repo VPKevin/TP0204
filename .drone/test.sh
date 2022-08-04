@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
@@ -27,6 +27,10 @@ for i in $Array1; do
 done
 #ArrayEnd={ echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u };
 #echo $ArrayEnd
+echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u
+echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d
+echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u | uniq
+echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq
 
-ArrayEnd=`echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq`
-echo $ArrayEnd
+#ArrayEnd=`echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -d | uniq`
+#echo $ArrayEnd
