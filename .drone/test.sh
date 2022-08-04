@@ -25,3 +25,4 @@ for i in $Array1; do
     done
     [ $skip = 1 ] || echo $i
 done
+echo "$Array1" "$Array2" | tr ' ' '\n' | sort | uniq -u
