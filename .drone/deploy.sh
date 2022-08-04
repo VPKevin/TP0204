@@ -2,6 +2,7 @@ set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
 
+ls -la /bin
 #printf "${GREEN}Step 1 :${NC} Recuperation des anciennes images utilisées\n"
 #oldImg=$(docker-compose --project-name tp0204 images -q)
 #printf "${GREEN}Step 2 :${NC} Mise à jour des images\n"
@@ -12,7 +13,7 @@ NC='\033[0m' # No Color
 #docker-compose --project-name tp0204 up -d
 printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
 echo "$BASH_VERSION"
-
+echo ${GREEN}"testyx"
 #lastImg=$(docker-compose --project-name tp0204 images -q)
 
 #echo ${oldImg[@]} ${lastImg[@]} | tr ' ' '\n' | sort | uniq -u
