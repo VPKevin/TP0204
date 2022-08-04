@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
@@ -35,8 +36,8 @@ echo ${GREEN}"testyx"
 
 #docker-compose --project-name tp0204 down --rmi all
 
-Array1=( "key1" "key2" "key3" "key4" "key5" "key6" "key7" "key8" "key9" "key10" )
-Array2=( "key1" "key2" "key3" "key4" "key5" "key6" )
+Array1=(key1 key2 key3 key4 key5 key6 key7 key8 key9 key10)
+Array2=(key1 key2 key3 key4 key5 key6)
 
 Array3=()
 for i in "${Array1[@]}"; do
