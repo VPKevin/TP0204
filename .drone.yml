@@ -6,6 +6,7 @@ steps:
   - name: deploy
     image: docker
     commands:
+      - echo Build {{build.number}} of {{build.branch}} started. {{build.link}}
       - sh ./.drone/deploy.sh
 #      - sh ./.drone/test.sh
     volumes:
