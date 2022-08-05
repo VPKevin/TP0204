@@ -3,15 +3,17 @@ set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
 
-printf "${GREEN}Step 1 :${NC} Recuperation des anciennes images utilisées\n"
+echo {{build.branch}}
+echo ${build.branch}
+printf "Build ${build.number} of ${build.branch} started. ${build.link}"
+printf "${GREEN}Step 1 :${NC} Récupération des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name tp0204 images -q)
-printf "${GREEN}Step 2 :${NC} Mise à jour des images\n"
+printf "${GREEN}Step 2 :${NC} Téléchargement des mise à jours des images\n"
 docker-compose --project-name tp0204 pull
-printf "${GREEN}Step 3 :${NC} Téléchargement des mises à jour des images\n"
+printf "${GREEN}Step 3 :${NC} Redémarrage des conteneurs\n"
 docker-compose --project-name tp0204 down
-printf "${GREEN}Step 4 :${NC} Démarrage des conteneurs\n"
 docker-compose --project-name tp0204 up -d
-printf "${GREEN}Step 5 :${NC} Suppressions des images orphelines\n"
+printf "${GREEN}Step 4 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name tp0204 images -q)
 
 for i in $oldImg; do
