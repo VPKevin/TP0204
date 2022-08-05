@@ -4,7 +4,8 @@ GREEN='1;32'
 NC='\033[0m' # No Color
 
 dockerName=$DRONE_REPO_NAME'_'$DRONE_COMMIT_BRANCH
-
+ls --color
+szr=(sgf{dfsd})
 printf "Build $dockerName"
 printf "${GREEN}Step 1 :${NC} Récupération des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name $dockerName images -q)
@@ -16,7 +17,7 @@ docker-compose --project-name $dockerName up -d
 printf "${GREEN}Step 4 :${NC} Suppressions des images orphelines\n"
 lastImg=$(docker-compose --project-name $dockerName images -q)
 
-for i in $oldImg; do
+for i in $oldImg; do # Ne supprime que les images de oldImg non présentes dans lastImg
     skip=0
     for j in $lastImg; do
         [ "$i" = "$j" ] && { skip=1; break; }
