@@ -6,7 +6,7 @@ steps:
   - name: deploy
     image: docker/compose:debian-1.29.2
     commands:
-      - echo /bin -la --color
+      - ls /bin -la --color
 #      - sh ./.drone/deploy.sh
 #      - sh ./.drone/test.sh
     volumes:
