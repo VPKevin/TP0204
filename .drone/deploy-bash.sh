@@ -5,10 +5,6 @@ NC='\033[0m' # No Color
 
 dockerName=$DRONE_REPO_NAME'_'$DRONE_COMMIT_BRANCH
 
-echo ${GREEN}"testyx"
-printf "\e[32m<text>"
-printf "\033[0;32m<text>"
-
 printf "Build $dockerName\n"
 printf "${GREEN}Step 1 :${NC} Récupération des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name $dockerName images -q)
