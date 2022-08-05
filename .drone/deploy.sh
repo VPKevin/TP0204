@@ -3,8 +3,9 @@ set -e
 GREEN='1;32'
 NC='\033[0m' # No Color
 
-echo {{build.branch}}
-echo ${build.branch}
+dockerName=$DRONE_REPO_NAME'_'$DRONE_COMMIT_BRANCH
+echo $dockerName
+err=(dgferrstbr{vgfserrdbr})
 printf "Build ${build.number} of ${build.branch} started. ${build.link}"
 printf "${GREEN}Step 1 :${NC} Récupération des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name tp0204 images -q)
