@@ -1,3 +1,4 @@
+[![Build Status](https://drone.kevinvieirapereira.fr/api/badges/VPKevin/TP0204/status.svg)](https://drone.kevinvieirapereira.fr/VPKevin/TP0204)
 # TP0204
 TP Symfony à rendre pour le 04 février 2022 [ici](https://hetic.arcplex.fr/index.php/projet-symfony/) !
 
