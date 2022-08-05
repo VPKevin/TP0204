@@ -1,20 +1,15 @@
 #!/bin/bash
 set -e
-GREEN='1;32'
+GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 dockerName=$DRONE_REPO_NAME'_'$DRONE_COMMIT_BRANCH
 
-echo $0
-echo $BASH
-#ls -la /bin
-echo $BASH_VERSION
-echo "$BASH_VERSION"
-# shellcheck disable=SC2086
-echo $BASH_VERSION
 echo ${GREEN}"testyx"
+printf "\e[32m<text>"
+printf "\033[0;32m<text>"
 
-printf "Build $dockerName"
+printf "Build $dockerName\n"
 printf "${GREEN}Step 1 :${NC} Récupération des anciennes images utilisées\n"
 oldImg=$(docker-compose --project-name $dockerName images -q)
 printf "${GREEN}Step 2 :${NC} Téléchargement des mise à jours des images\n"
